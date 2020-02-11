@@ -76,12 +76,12 @@ for (var i = 0; i < 4; i++) {
     name: chooseRandomFromArray(FIRST_NAMES) + ' ' + chooseRandomFromArray(SECOND_NAMES),
     coatColor: chooseRandomFromArray(COAT_COLORS),
     eyesColor: chooseRandomFromArray(EYES_COLORS)
-  }
+  };
 }
 
 var fragment = document.createDocumentFragment();
-for (var i = 0; i < wizards.length; i++) {
-  fragment.appendChild(renderWizard(wizards[i]));
+for (var j = 0; j < wizards.length; j++) {
+  fragment.appendChild(renderWizard(wizards[j]));
 }
 
 // добавляем магов на страницу и показываем её

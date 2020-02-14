@@ -1,5 +1,7 @@
 'use strict';
 
+var WIZARDS_AMOUNT = 4;
+
 var FIRST_NAMES =
 [
   'Иван',
@@ -57,6 +59,27 @@ var renderWizard = function (wizard) {
   return wizardElement;
 };
 
+var createRandomWizardsArray = function (amount) {
+  var wizardsArray = [];
+
+  for (var i = 0; i < amount; i++) {
+    wizardsArray[i] =
+    {
+      name: chooseRandomFromArray(FIRST_NAMES) + ' ' + chooseRandomFromArray(SECOND_NAMES),
+      coatColor: chooseRandomFromArray(COAT_COLORS),
+      eyesColor: chooseRandomFromArray(EYES_COLORS)
+    };
+  }
+
+  return wizardsArray;
+};
+
+var fillFragment = function (array, fragment) {
+  for (var j = 0; j < array.length; j++) {
+    fragment.appendChild(renderWizard(array[j]));
+  }
+};
+
 // показываем окно настройки
 var userDialog = document.querySelector('.setup');
 userDialog.classList.remove('hidden');
@@ -68,23 +91,10 @@ var similarWizardTemplate = document.querySelector('#similar-wizard-template')
   .querySelector('.setup-similar-item');
 
 // собираем магов
-var wizards = [];
-
-for (var i = 0; i < 4; i++) {
-  wizards[i] =
-  {
-    name: chooseRandomFromArray(FIRST_NAMES) + ' ' + chooseRandomFromArray(SECOND_NAMES),
-    coatColor: chooseRandomFromArray(COAT_COLORS),
-    eyesColor: chooseRandomFromArray(EYES_COLORS)
-  };
-}
-
+var wizards = createRandomWizardsArray(WIZARDS_AMOUNT);
 var fragment = document.createDocumentFragment();
-for (var j = 0; j < wizards.length; j++) {
-  fragment.appendChild(renderWizard(wizards[j]));
-}
+fillFragment(wizards, fragment);
 
-// добавляем магов на страницу и показываем её
+// добавляем магов в div и показываем его
 similarListElement.appendChild(fragment);
-
 document.querySelector('.setup-similar').classList.remove('hidden');

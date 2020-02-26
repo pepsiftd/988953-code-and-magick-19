@@ -141,13 +141,13 @@ var setupOpenEnterPressHandler = function (evt) {
   if (evt.key === ENTER_KEY) {
     openSetupWindow();
   }
-}
+};
 
 var setupCloseEnterPressHandler = function (evt) {
   if (evt.key === ENTER_KEY) {
     closeSetupWindow();
   }
-}
+};
 
 var wizardCoatClickHandler = function () {
   changeCoatColor();
@@ -229,4 +229,4 @@ var closeSetupWindow = function () {
 
 // обработчики нажатия на картинку аватара
 setupOpenButton.addEventListener('click', setupOpenClickHandler);
-setupOpenButton.addEventListener('keydown', setupOpenEnterPressHandler)
+setupOpenButton.addEventListener('keydown', setupOpenEnterPressHandler);

@@ -5,6 +5,7 @@
   var setupOpenButton = document.querySelector('.setup-open');
   var setupCloseButton = userDialog.querySelector('.setup-close');
   var nameInput = userDialog.querySelector('.setup-user-name');
+  var dialogHandler = userDialog.querySelector('.upload');
 
   var setupOpenClickHandler = function () {
     openSetupWindow();
@@ -15,15 +16,15 @@
   };
 
   var setupEscPressHandler = function (evt) {
-    window.util.isEscEvent (evt, function () {
+    window.util.isEscEvent(evt, function () {
       if (evt.target !== nameInput) {
         closeSetupWindow();
       }
-    })
+    });
   };
 
   var setupOpenEnterPressHandler = function (evt) {
-    window.util.isEnterEvent (evt, openSetupWindow);
+    window.util.isEnterEvent(evt, openSetupWindow);
   };
 
   var setupCloseEnterPressHandler = function (evt) {
@@ -49,4 +50,53 @@
   // обработчики нажатия на картинку аватара
   setupOpenButton.addEventListener('click', setupOpenClickHandler);
   setupOpenButton.addEventListener('keydown', setupOpenEnterPressHandler);
+
+  // обработка перетаскивания окна
+  dialogHandler.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
+
+    var coords = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
+
+    var dragged = false;
+
+    var mouseMoveHandler = function (moveEvt) {
+      moveEvt.preventDefault();
+      dragged = true;
+
+      var shift = {
+        x: coords.x - moveEvt.clientX,
+        y: coords.y - moveEvt.clientY
+      };
+
+      coords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+
+      userDialog.style.top = (userDialog.offsetTop - shift.y) + 'px';
+      userDialog.style.left = (userDialog.offsetLeft - shift.x) + 'px';
+
+    };
+
+    var mouseUpHandler = function (upEvt) {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', mouseMoveHandler);
+      document.removeEventListener('mouseup', mouseUpHandler);
+
+      if (dragged) {
+        var draggedClickHandler = function (clickEvt) {
+          clickEvt.preventDefault();
+          dialogHandler.removeEventListener('click', draggedClickHandler);
+        };
+        dialogHandler.addEventListener('click', draggedClickHandler);
+      }
+    };
+
+    document.addEventListener('mousemove', mouseMoveHandler);
+    document.addEventListener('mouseup', mouseUpHandler);
+  });
 })();

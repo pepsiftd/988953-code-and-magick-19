@@ -189,5 +189,5 @@
   window.setup = {
     initialize: initializeSetup,
     unload: unloadSetup
-  }
+  };
 })();
